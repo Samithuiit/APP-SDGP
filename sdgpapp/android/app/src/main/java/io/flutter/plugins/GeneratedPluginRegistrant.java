@@ -15,5 +15,15 @@ import io.flutter.embedding.engine.FlutterEngine;
 public final class GeneratedPluginRegistrant {
   private static final String TAG = "GeneratedPluginRegistrant";
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
+    try {
+      flutterEngine.getPlugins().add(new com.github.contactlutforrahman.flutter_qr_bar_scanner.FlutterQrBarScannerPlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin flutter_qr_bar_scanner, com.github.contactlutforrahman.flutter_qr_bar_scanner.FlutterQrBarScannerPlugin", e);
+    }
+    try {
+      flutterEngine.getPlugins().add(new com.github.rmtmckenzie.native_device_orientation.NativeDeviceOrientationPlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin native_device_orientation, com.github.rmtmckenzie.native_device_orientation.NativeDeviceOrientationPlugin", e);
+    }
   }
 }

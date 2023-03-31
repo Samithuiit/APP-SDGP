@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sdgpapp/LoggedIN.dart';
 import 'package:sdgpapp/loggedroute.dart';
-import 'package:sdgpapp/LoggedIN.dart';
 import 'package:sdgpapp/signroute.dart';
+import 'package:sdgpapp/QRscanMain.dart';
+
 
 
  TextEditingController _textEditingControllerPw = TextEditingController();
@@ -249,6 +250,9 @@ void logpress(context,name1){
 
 // for sign press
 void signpress(context){
+
+ 
+
 
         Navigator.push(
     context,

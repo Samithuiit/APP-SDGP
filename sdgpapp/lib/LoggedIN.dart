@@ -1,5 +1,8 @@
-
+import 'QRscanMain.dart';
 import 'package:flutter/material.dart';
+import 'QRscanSecond.dart';
+import 'QRscanFirst.dart';
+
 
 // next page after loging in (main menu)
 class LoggedIN extends StatelessWidget {
@@ -88,6 +91,11 @@ appBar: AppBar(
  TextButton(
               onPressed: () {
                 print('Button 1 pressed');
+                  // changing the the qr screen
+          Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>   QRscanFirst()),
+  );
               },
               child: Text('Scan QR'),
             ),
