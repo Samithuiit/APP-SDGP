@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 //import 'package:sqflite/sqflite.dart';
 
 void main() {
@@ -13,8 +14,35 @@ class SignupPage extends StatefulWidget {
   State<SignupPage> createState() => _SignupPageState();
 }
 
+/*class _SignupPageState extends State<SignupPage> {
+  String dropdownValue = 'Passenger';
+  String username = '';
+  String password = '';
+  String phoneNumber = '';*/
+
 class _SignupPageState extends State<SignupPage> {
   String dropdownValue = 'Passenger';
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  Future<void> _signup() async {
+    final response = await http.post(
+      Uri.parse("localhost"),
+      body: {
+        'username': _nameController.text,
+        'password': _passwordController.text,
+        'phoneNumber': _phoneController.text,
+        'role': dropdownValue,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // handle success
+    } else {
+      // handle error
+    }
+  }
 
   /*@override
   void initState() {
@@ -81,6 +109,9 @@ class _SignupPageState extends State<SignupPage> {
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (String value) {
+                            /*setState(() {
+                              username = value;
+                            });*/
 
                           },
                           validator: (value) {
@@ -103,6 +134,10 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           onChanged: (String value) {
 
+                            /*setState(() {
+                              password = value;
+                            });*/
+
                           },
                           validator: (value) {
                             return value!.isEmpty ? 'Please enter password' : null;
@@ -124,6 +159,10 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           onChanged: (String value) {
 
+                            /*setState(() {
+                              phoneNumber = value;
+                            });*/
+
                           },
                           validator: (value) {
                             return value!.isEmpty ? 'Please enter email' : null;
@@ -133,12 +172,9 @@ class _SignupPageState extends State<SignupPage> {
 
                       SizedBox(height: 5,),
 
-                    // Step 1.
-                    // Step 2.
+
                                 DropdownButton<String>(
-                                  // Step 3.
                                   value: dropdownValue,
-                                  // Step 4.
                                   items: <String>['Passenger','Driver']
                                       .map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
