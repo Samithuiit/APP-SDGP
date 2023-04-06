@@ -59,8 +59,8 @@ class _HomeState extends State<Home> {
         ),
         body: TabBarView(
           children: [
-            QRscanFirst(),
-            QRscanSecond(),
+            QRscanFirst("0",""),
+            QRscanSecond('1',''),
           ],
         ),
       ),

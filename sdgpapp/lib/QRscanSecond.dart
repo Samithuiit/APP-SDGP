@@ -2,13 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
+import 'package:sdgpapp/Locationgetter.dart';
+
 
 class QRscanSecond extends StatefulWidget {
+
+final String type;
+
+final String phonenum;
+  QRscanSecond(this.type,this.phonenum);
+
+
+
   @override
   _SecondState createState() => _SecondState();
 }
 
-class _SecondState extends State<QRscanSecond> {
+class _SecondState extends State<QRscanSecond>{
   String? _qrInfo = 'Scan a QR/Bar code';
   bool camState = false;
 
@@ -16,6 +26,37 @@ class _SecondState extends State<QRscanSecond> {
     setState(() {
       camState = false;
       _qrInfo = code;
+
+
+// // remove
+// showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text('Location'),
+//         content: Text(widget.type+ widget.phonenum),
+//         actions: <Widget>[
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('Close'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+
+
+
+                        Navigator.push(
+      context,
+
+      MaterialPageRoute(builder: (context) => Locationgetter(widget.type, widget.phonenum)),
+    );
+  
+
+
     });
   }
 
@@ -50,11 +91,16 @@ class _SecondState extends State<QRscanSecond> {
                 height: 1000,
                 width: 500,
                 child: QRBarScannerCamera(
-                  onError: (context, error) => Text(
+                  onError: (context, error) =>
+                        
+                   Text(
+                    
                     error.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.red),
+                    
                   ),
+
                   qrCodeCallback: (code) {
                     qrCallback(code);
                   },
@@ -72,8 +118,17 @@ class _SecondState extends State<QRscanSecond> {
                     ),
                   ),
                 ],
+                
               ),
             ),
+
+
+
     );
+    
+    
+    
   }
+  
+  onerror() {}
 }

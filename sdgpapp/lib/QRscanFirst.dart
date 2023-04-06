@@ -7,13 +7,30 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
 class QRscanFirst extends StatefulWidget {
+
+final String type;
+
+final String phonenum;
+  QRscanFirst(this.type,this.phonenum);
+
+
+  
   @override
   _FirstState createState() => _FirstState();
 }
 
 class _FirstState extends State<QRscanFirst> {
+
   TextEditingController title = TextEditingController();
+
+
   TextEditingController content = TextEditingController();
+
+  // setting the text for the qr code 
+void setText() {
+    title.text = 'Your Text Here';
+  }
+
   var code = '';
   File? file;
   @override
@@ -22,24 +39,39 @@ class _FirstState extends State<QRscanFirst> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
+
+           
             children: [
             
               Padding(
                 padding: EdgeInsets.all(35),
+             child:Visibility(
+              visible: false,
                 child: Container(
+                  
+                  
                   decoration: BoxDecoration(border: Border.all()),
+        
+            
+            
                   child: TextFormField(
                     controller: title,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       hintText: ' Code ',
+                
+
                     ),
-                  ),
+                
                 ),
+                ),
+             ),
               ),
               MaterialButton(
                 color: Colors.indigo,
                 onPressed: () {
+                  // setting the phone num
+                  setText();
                   setState(() {
                     code = title.text;
                   });
@@ -59,8 +91,8 @@ class _FirstState extends State<QRscanFirst> {
                         errorCorrectLevel: BarcodeQRCorrectionLevel.high,
                       ),
                       data: '$code',
-                      width: 200,
-                      height: 200,
+                      width: 400,
+                      height: 400,
                     ),
             ],
           ),

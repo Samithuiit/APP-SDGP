@@ -1,23 +1,28 @@
-import 'QRscanMain.dart';
+
+
 import 'package:flutter/material.dart';
 import 'QRscanSecond.dart';
 import 'QRscanFirst.dart';
+import 'package:sdgpapp/Locationgetter.dart';
 
 
 // next page after loging in (main menu)
 class LoggedIN extends StatelessWidget {
 
 // user name
-final String name1;
-  LoggedIN(this.name1);
+final String type;
 
+final String phonenum;
+  LoggedIN(this.type,this.phonenum);
+ 
 
+  
   @override
   Widget build(BuildContext context)=>Scaffold( 
-
+    
 // app bar
 appBar: AppBar(
-          title:Text("SDGP")
+          title:Text("WELCOME")
           ),
         
 
@@ -36,6 +41,7 @@ appBar: AppBar(
 // container for balance
             Container(
 
+
               // outline
                 margin: const EdgeInsets.all(60.0),
               padding: const EdgeInsets.all(3.0),
@@ -46,14 +52,18 @@ appBar: AppBar(
           alignment: Alignment.center,
 // columns for the balance details          
       child:Column(
-          
+
+ 
+
 // centering
   mainAxisAlignment: MainAxisAlignment.center,
   crossAxisAlignment: CrossAxisAlignment.center,
 
 // children for balance   details
               children: [
-                Text("Balance"),
+
+// todo remove variables
+                Text("Balance"+"type"+type+"  "+phonenum),
 
 // manual paddings
                     SizedBox(
@@ -92,14 +102,29 @@ appBar: AppBar(
               onPressed: () {
                 print('Button 1 pressed');
                   // changing the the qr screen
-          Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) =>   QRscanFirst()),
-  );
+
+            Locationchecker(context,type,phonenum);
+
+              },
+              child: Text('SKIP Scan QR'),
+            ),
+            SizedBox(height: 20), 
+            TextButton(
+              onPressed: () {
+                print('Button 1 pressed');
+                  // changing the the qr screen
+
+                scanner(context,type,phonenum);
+
+
               },
               child: Text('Scan QR'),
             ),
-            SizedBox(height: 20),    ]          )
+ 
+               ]
+            
+                      )
+            
             )
           ]
             )
@@ -109,9 +134,30 @@ appBar: AppBar(
           
                    );
          
-
-
-
-
   
+}
+
+void Locationchecker(context,type,phonenum){
+
+  print("check "+type+phonenum);
+
+
+                Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>    Locationgetter(type,phonenum)),
+  );
+
+}
+
+
+void scanner(context,type,phonenum){
+
+  print("check "+type+phonenum);
+
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>    QRscanSecond(type,phonenum)),
+  );
+
 }
