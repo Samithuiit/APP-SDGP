@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 
 import 'package:flutter/material.dart';
 import 'package:sdgpapp/LoggedIN.dart';
+import 'package:sdgpapp/QRscanFirst.dart';
 import 'package:sdgpapp/loggedroute.dart';
 import 'package:sdgpapp/signroute.dart';
 import 'package:sdgpapp/QRscanMain.dart';
+import 'package:sdgpapp/Locationgetter.dart';
+
 
 
 
@@ -39,7 +44,7 @@ String pw1='';
       
     //   home: Scaffold(
     appBar: AppBar(
-          title:Text("main screen ")
+          title:Text("EZ Ride")
           ),
         
         body: Center(
@@ -61,7 +66,7 @@ String pw1='';
               controller: _textEditingControllerName,
 
             decoration: InputDecoration(
-              labelText: "Username/Phone number"
+              labelText: "Phone number"
             ),
           ),
 
@@ -99,6 +104,21 @@ String pw1='';
 
               onPressed: () { 
                 name1=_textEditingControllerName.text; 
+                //1 to go to create qr
+                if (name1=="1"){
+                  logpressforDrivers(context,'0','0023456789');
+                  return;
+                }
+                // 2 to go to users balance page-scan qr
+                if (name1=="2"){
+                  logpress(context,'0','0023456789');
+                  return;
+                }
+                // 3 to go to location getter
+                if (name1=="3"){
+                  Locationchecker(context,'0','0023456789');
+                  return;
+                }
                 pw1=_textEditingControllerPw.text;
 getRequest(context,name1,pw1);
                 // getRequest(context,name1,pw1);
@@ -144,7 +164,8 @@ SizedBox(
                 'Sign Up',
                 style: TextStyle(fontSize: 24),
               ),
-            )
+            ),
+
 
 // todo
 //            Row( 
@@ -184,24 +205,30 @@ SizedBox(
 
 // method for login button press
 void getRequest(context,name1,pw1) async {
+  // name isthe phone number 
   print(name1);
   String urlmain = "http://localhost:3000/login";
-  urlmain=urlmain+"?name="+name1+"&password="+pw1;
+  urlmain=urlmain+"?phone_number="+name1+"&password="+pw1;
 
 // String urlmain="http://localhost:5000/log";
   var url = Uri.parse(urlmain);
   // var response = await http.get(url);
     final response = await http.get(Uri.parse(urlmain));
 
-  final responseData = response.body;
+  final responseData = json.decode(response.body);
+    // var msg = responseData['msg'].toString();
+    Map<String, dynamic> data = jsonDecode(response.body);
+  var msg = data['msg'];
+  
+
 
 
    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Data'),
-          content: Text(responseData),
+          title: Text('msg'),
+          content: Text(msg),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
@@ -215,20 +242,29 @@ void getRequest(context,name1,pw1) async {
     );
   
 
-    if (responseData=="Erorr"){
+    if (msg=="Erorr"){
       // cleaning the textfield if error happens
         _textEditingControllerName.clear();
         _textEditingControllerPw.clear();
+
     }
-    if (responseData=="Logged IN"){
-        logpress(context,name1);
+    if (msg=="Logged IN"){
+          var type = data['userType'].toString();
+              var phonenum = data['phone_number'];
+    if (type=="0"){
+
+logpressforDrivers(context,type,phonenum);
     }
-    if (responseData=="Invalid Inputs"){
+    if (type=="1"){
+
+        logpress(context,type,phonenum);
+    }
+    }
+    if (msg=="Invalid Inputs"){
        // cleaning the textfield if error happens
         _textEditingControllerName.clear();
         _textEditingControllerPw.clear();
     }
-    print(responseData);
 
 
   // print('Response status: ${response.statusCode}');
@@ -237,13 +273,24 @@ void getRequest(context,name1,pw1) async {
 
 
 // for logging press
-void logpress(context,name1){
+void logpress(context,type,phonenum){
 
 
 
                 Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) =>    LoggedIN(name1)),
+    MaterialPageRoute(builder: (context) =>    LoggedIN(type,phonenum)),
+  );
+
+}
+
+void logpressforDrivers(context,type,phonenum){
+
+
+
+                Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>    QRscanFirst(type,phonenum)),
   );
 
 }
@@ -261,4 +308,16 @@ void signpress(context){
   
 }
 
+// remove
+// location checker
 
+void Locationchecker(context,type,phonenum){
+
+
+
+                Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>    Locationgetter(type,phonenum)),
+  );
+
+}

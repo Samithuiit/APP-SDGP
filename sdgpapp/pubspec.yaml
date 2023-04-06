@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+
   flutter:
     sdk: flutter
 
@@ -39,8 +40,10 @@ dependencies:
   http: ^0.13.5
   
   barcode_widget: ^2.0.3
-  
+
   flutter_qr_bar_scanner: ^3.0.2
+  location: ^4.4.0
+  google_maps_flutter: ^2.2.5
 
 dev_dependencies:
   flutter_test:
